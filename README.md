@@ -1,12 +1,36 @@
-# zaboy-skeleton
-
----
-## [Оглавление](https://github.com/rollun-com/rollun-skeleton/blob/master/docs/Contents.md)
-
+# service-api-gateway
 ---
 
-Каркас для создания приложений. 
+## Api Gateway
+Сервис который проксирует через себя все запросы к api,
+ и перенаправляет их в конкретные сервисы.
+[Более детально о патерне микросервисной архитектуры - api-gateway](http://microservices.io/patterns/apigateway.html)
 
-* [Стандарты](https://github.com/rollun-com/rollun-skeleton/blob/master/docs/Standarts.md)
+Все внутриние сервисы, общаются между собой исключительно через **api-gateway**.
+Используя указаный ниже протокол общения.
 
-* [Quickstart](https://github.com/avz-cmf/saas/blob/master/docs/Quickstart.md)
+## Принцип работы
+
+Маска запроса `/{services}/{send_path}`
+> Поддерживаемый типы запроса - все согласно стандарта http
+* services - имя сервиса в который будет передан запрос
+* send_path - путь по которому будет отправлен запрос в сервис
+
+Пример
+```
+GET
+http://api-gateway/amazon-store/api/webhook/withdraw?asin="AAAAAAAA"&sku="AA-AAA-AAA"
+```
+Переотправит запрос на сервис с именем `amazon-store` - `192.168.122.23`.
+Допустим, у нас есть конфиг соответсвия
+```
+amazon-store: 192.168.122.23
+ebay-store: 192.168.123.23
+```
+Переотправленый запрос будет выглядит
+```
+GET
+http://192.168.122.23/api/webhook/withdraw?asin="AAAAAAAA"&sku="AA-AAA-AAA"
+```
+
+После того как запрос отработает, **api-gateway** вернет ответ.
