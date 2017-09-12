@@ -27,7 +27,7 @@ http://api-gateway/amazon-store/api/webhook/withdraw?asin="AAAAAAAA"&sku="AA-AAA
 amazon-store: 192.168.122.23
 ebay-store: 192.168.123.23
 ```
-Переотправленый запрос будет выглядит
+Переотправленый запрос будет выглядеть
 ```
 GET
 http://192.168.122.23/api/webhook/withdraw?asin="AAAAAAAA"&sku="AA-AAA-AAA"
