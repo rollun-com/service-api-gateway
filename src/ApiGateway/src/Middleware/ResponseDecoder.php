@@ -1,21 +1,21 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: victorsecuring
- * Date: 06.05.17
- * Time: 11:33 AM
+ * User: root
+ * Date: 13.09.17
+ * Time: 11:42
  */
 
-namespace rollun\test\Middleware;
-
+namespace rollun\Services\ApiGateway\Middleware;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use rollun\actionrender\Renderer\Html\HtmlParamResolver;
+use Zend\Diactoros\Response\Serializer;
+use Zend\Http\Response;
 
-class HelloAction implements MiddlewareInterface
+class ResponseDecoder implements MiddlewareInterface
 {
 
     /**
@@ -29,11 +29,11 @@ class HelloAction implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $params = $request->getQueryParams();
-        $str = isset($params['str']) ? $params['str'] : "World";
-        $request = $request->withAttribute('responseData', ['str' => $str]);
-        $request = $request->withAttribute(HtmlParamResolver::KEY_ATTRIBUTE_TEMPLATE_NAME, 'test-app::home-page');
-        $response = $delegate->process($request);
+        /** @var Response $serviceResponse */
+        $serviceResponse = $request->getAttribute(RequestSender::ATTR_SERVICE_RESPONSE);
+
+        $response = Serializer::fromString($serviceResponse->toString());
+
         return $response;
     }
 }
