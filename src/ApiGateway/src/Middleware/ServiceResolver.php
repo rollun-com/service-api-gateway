@@ -18,7 +18,6 @@ use Zend\ServiceManager\ServiceManager;
 
 class ServiceResolver implements MiddlewareInterface
 {
-
     const ATTR_SERVICE_NAME = "serviceName";
 
     /**
@@ -53,7 +52,6 @@ class ServiceResolver implements MiddlewareInterface
         $response = $delegate->process($request);
         return ($response);
     }
-
 
     /**
      * @param $path

@@ -21,15 +21,6 @@ class RequestResolver implements MiddlewareInterface
 
     const ATTR_SEND_REQUEST = 'sendRequest';
 
-
-    /**
-     * RequestResolver constructor.
-     */
-    public function __construct()
-    {
-    }
-
-
     /**
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
@@ -46,7 +37,6 @@ class RequestResolver implements MiddlewareInterface
         $response = $delegate->process($request);
         return $response;
     }
-
 
     /**
      * @deprecated

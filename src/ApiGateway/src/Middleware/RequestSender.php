@@ -38,12 +38,10 @@ class RequestSender implements MiddlewareInterface
         $sendRequest->setUri($this->getUrl($request));
 
         $client = new Client();
-        //$client = new Client("http://www.google.com/");
         $response = $client->send($sendRequest);
+        //$client = new Client("http://www.google.com/");
         //$response = $client->send();
-
         $request = $request->withAttribute(static::ATTR_SERVICE_RESPONSE, $response);
-
         $response = $delegate->process($request);
         return $response;
     }
