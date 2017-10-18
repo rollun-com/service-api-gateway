@@ -35,26 +35,10 @@ class RequestSender implements MiddlewareInterface
     {
         /** @var Request $sendRequest */
         $sendRequest = $request->getAttribute(RequestResolver::ATTR_SEND_REQUEST);
-        $sendRequest->setUri($this->getUrl($request));
-
         $client = new Client();
         $response = $client->send($sendRequest);
-        //$client = new Client("http://www.google.com/");
-        //$response = $client->send();
         $request = $request->withAttribute(static::ATTR_SERVICE_RESPONSE, $response);
         $response = $delegate->process($request);
         return $response;
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     * @return string
-     */
-    protected function getUrl(ServerRequestInterface $request)
-    {
-        $host = $request->getAttribute(ServiceResolver::ATTR_SERVICE_NAME);
-        $path = $request->getAttribute(PathResolver::ATTR_PATH);
-        $uri = "http://" . $host . '/' . $path;
-        return $uri;
     }
 }

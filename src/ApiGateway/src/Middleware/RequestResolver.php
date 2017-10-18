@@ -12,8 +12,10 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Diactoros\Request\Serializer;
+use Zend\Stdlib\Parameters;
 use Zend\Uri\Http;
 
 class RequestResolver implements MiddlewareInterface
@@ -38,6 +40,7 @@ class RequestResolver implements MiddlewareInterface
         return $response;
     }
 
+
     /**
      * @deprecated
      * @param ServerRequestInterface $serverRequest
@@ -45,8 +48,59 @@ class RequestResolver implements MiddlewareInterface
      */
     protected function requestCreator(ServerRequestInterface $serverRequest)
     {
-        $stringRequest  = Serializer::toString($serverRequest);
-        $request = Request::fromString($stringRequest);
+
+        $request = new Request();
+
+        $request->setQuery(new Parameters($serverRequest->getQueryParams()));
+
+        $request->setMethod($serverRequest->getMethod());
+
+        $request->setFiles(new Parameters($serverRequest->getUploadedFiles()));
+
+        $request->setContent($serverRequest->getBody());
+
+        $headers = new Headers();
+        $headers->addHeaders($serverRequest->getHeaders());
+        $headers->addHeaderLine("Host", $this->getHost($serverRequest));
+        $request->setHeaders($headers);
+
+        $request->setUri($this->getUrl($serverRequest));
+
         return $request;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return mixed
+     */
+    protected function getHost(ServerRequestInterface $request)
+    {
+        return $request->getAttribute(ServiceResolver::ATTR_SERVICE_NAME);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return mixed
+     */
+    protected function getPath(ServerRequestInterface $request)
+    {
+        return $request->getAttribute(PathResolver::ATTR_PATH);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return string
+     */
+    protected function getUrl(ServerRequestInterface $request)
+    {
+        $scheme = $request->getUri()->getScheme();
+        $host = $this->getHost($request);
+        $path = $this->getPath($request);
+        $uri = "$scheme://" . $host . '/' . $path;
+        $query = $request->getUri()->getQuery();
+        if(!empty($query)) {
+            $uri .= "?" . $query;
+        }
+        return $uri;
     }
 }

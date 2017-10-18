@@ -64,13 +64,11 @@ class ConfigProvider
     {
         return [
             ServiceResolver::class => ServiceResolverFactory::class,
-
             TestServices::class => InvokableFactory::class,
             PathResolver::class => InvokableFactory::class,
             RequestResolver::class => InvokableFactory::class,
             RequestSender::class => InvokableFactory::class,
             ResponseDecoder::class => InvokableFactory::class,
-
             ServicesPluginManager::class => function (ContainerInterface $container, $requestedName) {
                 return new ServicesPluginManager($container);
             }
