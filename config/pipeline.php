@@ -1,5 +1,6 @@
 <?php
 
+use rollun\Services\ApiGateway\ConfigProvider as ApiGatewayConfigProvider;
 use Zend\Expressive\Helper\ServerUrlMiddleware;
 use Zend\Expressive\Helper\UrlHelperMiddleware;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
@@ -35,7 +36,7 @@ $app->pipe(ServerUrlMiddleware::class);
 // - $app->pipe('/docs', $apiDocMiddleware);
 // - $app->pipe('/files', $filesMiddleware);
 
-$app->pipe('apiGatewayPipe');
+$app->pipe(ApiGatewayConfigProvider::API_GATEWAY_SERVICE_CONFIG);
 
 // Add more middleware here that needs to introspect the routing results; this
 // might include:

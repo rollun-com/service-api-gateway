@@ -1,6 +1,6 @@
 {
-  "name": "rollun-com/rollun-skeleton",
-  "description": "Skeleton for app or lib",
+  "name": "rollun-com/service-api-gateway",
+  "description": "PHP ApiGateway microservice pattern realisation.",
   "minimum-stability": "stable",
   "license": "proprietary",
   "type": "project",
@@ -52,7 +52,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "rollun\\test\\skeleton\\": "test/App"
+      "rollun\\test\\ApiGateway\\": "test/ApiGateway/src"
     }
   },
   "scripts": {

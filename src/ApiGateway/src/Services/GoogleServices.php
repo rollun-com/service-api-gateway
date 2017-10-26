@@ -8,7 +8,7 @@
 
 namespace rollun\Services\ApiGateway\Services;
 
-class TestServices implements ServicesInterface
+class GoogleServices implements ServicesInterface
 {
 
     /**

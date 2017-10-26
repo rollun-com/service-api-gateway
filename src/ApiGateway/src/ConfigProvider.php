@@ -10,7 +10,7 @@ use rollun\Services\ApiGateway\Middleware\PathResolver;
 use rollun\Services\ApiGateway\Middleware\RequestResolver;
 use rollun\Services\ApiGateway\Middleware\RequestSender;
 use rollun\Services\ApiGateway\Middleware\ResponseDecoder;
-use rollun\Services\ApiGateway\Services\TestServices;
+use rollun\Services\ApiGateway\Services\GoogleServices;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 /**
@@ -20,6 +20,8 @@ use Zend\ServiceManager\Factory\InvokableFactory;
  */
 class ConfigProvider
 {
+    const API_GATEWAY_SERVICE_CONFIG = "ApiGatewayPipe";
+
     /**
      * Returns the configuration array
      *
@@ -52,9 +54,7 @@ class ConfigProvider
      */
     protected function getAliases()
     {
-        return [
-            'test' => TestServices::class
-        ];
+        return [];
     }
 
     /**
@@ -64,7 +64,6 @@ class ConfigProvider
     {
         return [
             ServiceResolver::class => ServiceResolverFactory::class,
-            TestServices::class => InvokableFactory::class,
             PathResolver::class => InvokableFactory::class,
             RequestResolver::class => InvokableFactory::class,
             RequestSender::class => InvokableFactory::class,
@@ -81,7 +80,7 @@ class ConfigProvider
     protected function getPipeConfig()
     {
         return [
-            'apiGatewayPipe' => [
+            static::API_GATEWAY_SERVICE_CONFIG => [
                 MiddlewarePipeAbstractFactory::KEY_MIDDLEWARES => [
                     ServiceResolver::class,
                     PathResolver::class,

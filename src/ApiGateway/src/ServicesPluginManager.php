@@ -9,7 +9,7 @@
 namespace rollun\Services\ApiGateway;
 
 use rollun\Services\ApiGateway\Services\ServicesInterface;
-use rollun\Services\ApiGateway\Services\TestServices;
+use rollun\Services\ApiGateway\Services\GoogleServices;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -17,11 +17,11 @@ class ServicesPluginManager extends AbstractPluginManager
 {
 
     protected $aliases = [
-        "test" => TestServices::class,
+        "google" => GoogleServices::class,
     ];
 
     protected $factories = [
-        TestServices::class => InvokableFactory::class
+        GoogleServices::class => InvokableFactory::class
     ];
 
     protected $instanceOf = ServicesInterface::class;
