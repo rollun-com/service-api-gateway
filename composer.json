@@ -14,11 +14,6 @@
       "email": "it.proffesor02@gmail.com"
     }
   ],
-  "extra": {
-    "asset-installer-paths": {
-      "npm-asset-library": "public/assets/js"
-    }
-  },
   "require": {
     "php": "^5.6 || ^7.0",
     "roave/security-advisories": "dev-master",
@@ -33,6 +28,8 @@
     "psr/log": "^1.0",
     "rollun-com/rollun-logger": "^3.0",
     "rollun-com/rollun-installer": "^3.0",
+    "rollun-com/rollun-permission": "^2.2",
+    "rollun-com/rollun-api": "^3.0",
     "zendframework/zend-http": "^2.5",
     "zendframework/zend-i18n": "^2.7",
     "rollun-com/rollun-actionrender": "^5.0",

@@ -36,7 +36,11 @@ $app->pipe(ServerUrlMiddleware::class);
 // - $app->pipe('/docs', $apiDocMiddleware);
 // - $app->pipe('/files', $filesMiddleware);
 
-$app->pipe(ApiGatewayConfigProvider::API_GATEWAY_SERVICE_CONFIG);
+if ($container->has('permissionPipe')) {
+    //$app->pipe('permissionPipe');//TODO: uncommented this
+}
+
+$app->pipe("/",ApiGatewayConfigProvider::API_GATEWAY_SERVICE_CONFIG);
 
 // Add more middleware here that needs to introspect the routing results; this
 // might include:

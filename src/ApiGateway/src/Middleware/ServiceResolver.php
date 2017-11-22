@@ -18,6 +18,8 @@ use Zend\ServiceManager\ServiceManager;
 
 class ServiceResolver implements MiddlewareInterface
 {
+    const DEFAULT_GW_PATH = "/";
+
     const ATTR_SERVICE_NAME = "serviceName";
 
     /**
@@ -45,8 +47,21 @@ class ServiceResolver implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $path = $request->getUri()->getPath();
+        $refererUrl = $request->getHeaderLine("Referer");
+        if (isset($refererUrl) && !empty($refererUrl)) {
+            $pattern = '/(' .
+                addcslashes($request->getUri()->getScheme() . "://"
+                    . $request->getUri()->getHost() . ":"
+                    . $request->getUri()->getPort() . static::DEFAULT_GW_PATH
+                    , '/[]*+()') . ')'
+                . '/';
+            $path = preg_replace('/(\?[\w\W]*)?/', "", preg_replace($pattern, "", $refererUrl));
+        } else {
+            $path = $request->getUri()->getPath();
+        }
+
         $serviceName = $this->getServiceName($path);
+
         $service = $this->getService($serviceName);
         $request = $request->withAttribute(static::ATTR_SERVICE_NAME, $service);
         $response = $delegate->process($request);
@@ -61,7 +76,7 @@ class ServiceResolver implements MiddlewareInterface
     protected function getServiceName($path)
     {
         //get service name
-        $pattern = '/^\/(?<name>[\w_]+)\//';
+        $pattern = '/^\/?(?<name>[\w_]+)\/?/';
         if (!preg_match($pattern, $path, $math)) {
             throw new LoggedException("");
         }

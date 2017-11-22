@@ -58,9 +58,24 @@ class RequestResolver implements MiddlewareInterface
         $request->setFiles(new Parameters($serverRequest->getUploadedFiles()));
 
         $request->setContent($serverRequest->getBody());
+        if($request->getCookie()) {
+            foreach ($serverRequest->getCookieParams() as $cookieName => $cookieValue) {
+                $request->getCookie()->set($cookieName, $cookieValue);
+            }
+        }
 
         $headers = new Headers();
         $headers->addHeaders($serverRequest->getHeaders());
+        if ($serverRequest->getHeaderLine("Referer")) {
+
+            $refererUrl = $serverRequest->getHeaderLine("Referer");
+            $url = $serverRequest->getUri()->getScheme() . "://"
+                . $serverRequest->getUri()->getHost();
+            $port = $serverRequest->getUri()->getPort();
+            $url = $port ? $url.":".$port : $url;
+            $refererUrl = str_replace($url,$this->getHost($serverRequest),$refererUrl);
+            $headers->addHeaderLine("Referer", $refererUrl);
+        }
         $headers->addHeaderLine("Host", $this->getHost($serverRequest));
         $request->setHeaders($headers);
 
@@ -98,7 +113,7 @@ class RequestResolver implements MiddlewareInterface
         $path = $this->getPath($request);
         $uri = "$scheme://" . $host . '/' . $path;
         $query = $request->getUri()->getQuery();
-        if(!empty($query)) {
+        if (!empty($query)) {
             $uri .= "?" . $query;
         }
         return $uri;
