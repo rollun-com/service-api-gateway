@@ -49,12 +49,10 @@ class ServiceResolver implements MiddlewareInterface
     {
         $refererUrl = $request->getHeaderLine("Referer");
         if (isset($refererUrl) && !empty($refererUrl)) {
-            $pattern = '/(' .
-                addcslashes($request->getUri()->getScheme() . "://"
-                    . $request->getUri()->getHost() . ":"
-                    . $request->getUri()->getPort() . static::DEFAULT_GW_PATH
-                    , '/[]*+()') . ')'
-                . '/';
+
+            $host = $request->getUri()->getScheme() . "://" . $request->getUri()->getHost();
+            $host = $request->getUri()->getPort() ? $host . ":" . $request->getUri()->getPort() : $host;
+            $pattern = '/(' . addcslashes($host . static::DEFAULT_GW_PATH, '/[]*+()') . ')/';
             $path = preg_replace('/(\?[\w\W]*)?/', "", preg_replace($pattern, "", $refererUrl));
         } else {
             $path = $request->getUri()->getPath();

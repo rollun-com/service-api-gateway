@@ -51,14 +51,23 @@ class RequestResolver implements MiddlewareInterface
 
         $request = new Request();
 
-        $request->setQuery(new Parameters($serverRequest->getQueryParams()));
+        $queryParams = $serverRequest->getQueryParams();
+        /*$params = [];
+        foreach ($queryParams as $queryName => $queryValue) {
+            if (!isset($queryValue) || empty($queryValue)) {
+                $params[] = $queryName;
+            } else {
+                $params[$queryName] = $queryValue;
+            }
+        }*/
+        #$request->setQuery(new Parameters($queryParams));
 
         $request->setMethod($serverRequest->getMethod());
 
         $request->setFiles(new Parameters($serverRequest->getUploadedFiles()));
 
         $request->setContent($serverRequest->getBody());
-        if($request->getCookie()) {
+        if ($request->getCookie()) {
             foreach ($serverRequest->getCookieParams() as $cookieName => $cookieValue) {
                 $request->getCookie()->set($cookieName, $cookieValue);
             }
@@ -67,15 +76,7 @@ class RequestResolver implements MiddlewareInterface
         $headers = new Headers();
         $headers->addHeaders($serverRequest->getHeaders());
         if ($serverRequest->getHeaderLine("Referer")) {
-
-            $refererUrl = $serverRequest->getHeaderLine("Referer");
-            $url = $serverRequest->getUri()->getScheme() . "://"
-                . $serverRequest->getUri()->getHost();
-            $port = $serverRequest->getUri()->getPort();
-            $url = $port ? $url.":".$port : $url;
-            $refererUrl = str_replace($url,$this->getHost($serverRequest),$refererUrl);
-            $refererUrl .= $serverRequest->getUri()->getQuery();
-            $headers->addHeaderLine("referer", $refererUrl);
+            //TODO: add referer
         }
         $headers->addHeaderLine("host", $this->getHost($serverRequest));
         $request->setHeaders($headers);
