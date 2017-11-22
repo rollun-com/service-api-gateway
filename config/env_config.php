@@ -9,6 +9,6 @@
 return [
     'APP_ENV' => 'dev',
     'MACHINE_NAME' => '',
-    'HOST' => 'localhost:8080',
+    'HOST' => 'gw.mototoyou.com',
     'LANG' => 'ru'
 ];

@@ -37,7 +37,7 @@ $app->pipe(ServerUrlMiddleware::class);
 // - $app->pipe('/files', $filesMiddleware);
 
 if ($container->has('permissionPipe')) {
-    //$app->pipe('permissionPipe');//TODO: uncommented this
+    $app->pipe('permissionPipe');//TODO: uncommented this
 }
 
 $app->pipe("/",ApiGatewayConfigProvider::API_GATEWAY_SERVICE_CONFIG);
