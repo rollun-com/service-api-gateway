@@ -78,7 +78,7 @@ class ServiceResolver implements MiddlewareInterface
         //get service name
         $pattern = '/^\/?(?<name>[\w_]+)\/?/';
         if (!preg_match($pattern, $path, $math)) {
-            throw new LoggedException("");
+            throw new LoggedException("$path is not service");
         }
         return ($math['name']);
     }
@@ -91,7 +91,7 @@ class ServiceResolver implements MiddlewareInterface
     protected function getService($serviceName)
     {
         if (!$this->servicesLocator->has($serviceName)) {
-            throw new LoggedException("");
+            throw new LoggedException("Service $serviceName not found");
         }
         $host = $this->servicesLocator->get($serviceName);
         return $host;

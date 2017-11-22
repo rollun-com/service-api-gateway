@@ -30,7 +30,12 @@ class PathResolver implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $fullPath = $request->getUri()->getPath();
+        if ($request->getHeaderLine("Referer")) {
+            $fullPath = "/" . "serviceName" . $request->getUri()->getPath();
+        } else {
+            $fullPath = $request->getUri()->getPath();
+        }
+
         $path = $this->getPath($fullPath);
         $request = $request->withAttribute(static::ATTR_PATH, $path);
         $response = $delegate->process($request);

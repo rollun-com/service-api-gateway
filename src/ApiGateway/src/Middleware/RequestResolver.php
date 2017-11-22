@@ -74,9 +74,10 @@ class RequestResolver implements MiddlewareInterface
             $port = $serverRequest->getUri()->getPort();
             $url = $port ? $url.":".$port : $url;
             $refererUrl = str_replace($url,$this->getHost($serverRequest),$refererUrl);
-            $headers->addHeaderLine("Referer", $refererUrl);
+            $refererUrl .= $serverRequest->getUri()->getQuery();
+            $headers->addHeaderLine("referer", $refererUrl);
         }
-        $headers->addHeaderLine("Host", $this->getHost($serverRequest));
+        $headers->addHeaderLine("host", $this->getHost($serverRequest));
         $request->setHeaders($headers);
 
         $request->setUri($this->getUrl($serverRequest));
