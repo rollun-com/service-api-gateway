@@ -11,7 +11,7 @@
 
 ## Принцип работы
 
-Маска запроса `/{services}/{send_path}`
+Маска запроса `{services}.domain.com/{send_path}`
 > Поддерживаемый типы запроса - все согласно стандарта http
 * services - имя сервиса в который будет передан запрос
 * send_path - путь по которому будет отправлен запрос в сервис
@@ -21,15 +21,15 @@
 Допустим мы отправим запрос на api-gateway.
 ```
 GET
-http://api-gateway/amazon-store/api/webhook/withdraw?asin="AAAAAAAA"&sku="AA-AAA-AAA"
+http://amazonStore.api-gateway/api/webhook/withdraw?asin="AAAAAAAA"&sku="AA-AAA-AAA"
 ```
-Он в свою очередь, примет это запрос, разберет его и переотправит на сервис с именем `amazon-store`.
+Он в свою очередь, примет это запрос, разберет его и переотправит на сервис с именем `amazonStore`.
 Допустим, у нас есть конфиг соответсвия.
 ```
-amazon-store: 192.168.122.23
-ebay-store: 192.168.123.23
+amazonStore: 192.168.122.23
+amazonStore: 192.168.123.23
 ```
-Тогда имени `amazon-store` будет соответсвовать ip `192.168.122.23`.
+Тогда имени `amazonStore` будет соответсвовать ip `192.168.122.23`.
 Переотправленый запрос будет выглядеть  
 ```
 GET
