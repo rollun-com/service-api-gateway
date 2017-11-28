@@ -36,7 +36,9 @@ class RequestSender implements MiddlewareInterface
     {
         /** @var Request $sendRequest */
         $sendRequest = $request->getAttribute(RequestResolver::ATTR_SEND_REQUEST);
-        $client = new Client();
+        $client = new Client(null, [
+            'timeout' => 90,
+        ]);
         $response = $client->send($sendRequest);
         $request = $request->withAttribute(static::ATTR_SERVICE_RESPONSE, $response);
         $response = $delegate->process($request);
