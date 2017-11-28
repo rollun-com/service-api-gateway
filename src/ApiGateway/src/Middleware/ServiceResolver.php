@@ -47,18 +47,19 @@ class ServiceResolver implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $refererUrl = $request->getHeaderLine("Referer");
+        /*$refererUrl = $request->getHeaderLine("Referer");
         if (isset($refererUrl) && !empty($refererUrl)) {
-
             $host = $request->getUri()->getScheme() . "://" . $request->getUri()->getHost();
             $host = $request->getUri()->getPort() ? $host . ":" . $request->getUri()->getPort() : $host;
             $pattern = '/(' . addcslashes($host . static::DEFAULT_GW_PATH, '/[]*+()') . ')/';
             $path = preg_replace('/(\?[\w\W]*)?/', "", preg_replace($pattern, "", $refererUrl));
         } else {
             $path = $request->getUri()->getPath();
-        }
+        }*/
+        $host = $request->getUri()->getHost();
 
-        $serviceName = $this->getServiceName($path);
+        //$serviceName = $this->getServiceName($path);
+        $serviceName = $this->getServiceName($host);
 
         $service = $this->getService($serviceName);
         $request = $request->withAttribute(static::ATTR_SERVICE_NAME, $service);
@@ -67,16 +68,17 @@ class ServiceResolver implements MiddlewareInterface
     }
 
     /**
-     * @param $path
+     * @param $host
      * @return string
      * @throws LoggedException
      */
-    protected function getServiceName($path)
+    protected function getServiceName($host)
     {
         //get service name
-        $pattern = '/^\/?(?<name>[\w_]+)\/?/';
-        if (!preg_match($pattern, $path, $math)) {
-            throw new LoggedException("$path is not service");
+        //$pattern = '/^\/?(?<name>[\w_]+)\/?/';
+        $pattern = '/(?<name>[\w_]+)\./';
+        if (!preg_match($pattern, $host, $math)) {
+            throw new LoggedException("$host is not service");
         }
         return ($math['name']);
     }

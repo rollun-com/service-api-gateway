@@ -30,30 +30,9 @@ class PathResolver implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        if ($request->getHeaderLine("Referer")) {
-            $fullPath = "/" . "serviceName" . $request->getUri()->getPath();
-        } else {
-            $fullPath = $request->getUri()->getPath();
-        }
-
-        $path = $this->getPath($fullPath);
+        $path = $request->getUri()->getPath();
         $request = $request->withAttribute(static::ATTR_PATH, $path);
         $response = $delegate->process($request);
         return $response;
-    }
-
-    /**
-     * @param $path
-     * @return mixed
-     * @throws LoggedException
-     */
-    protected function getPath($path)
-    {
-        $pattern = '/^\/[\w_]+\/(?<path>[\w\W]+)/';
-        if (!preg_match($pattern, $path, $match)) {
-            //throw new LoggedException("Path not found");
-            return "";
-        }
-        return $match['path'];
     }
 }

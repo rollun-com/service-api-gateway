@@ -48,19 +48,7 @@ class RequestResolver implements MiddlewareInterface
      */
     protected function requestCreator(ServerRequestInterface $serverRequest)
     {
-
         $request = new Request();
-
-        $queryParams = $serverRequest->getQueryParams();
-        /*$params = [];
-        foreach ($queryParams as $queryName => $queryValue) {
-            if (!isset($queryValue) || empty($queryValue)) {
-                $params[] = $queryName;
-            } else {
-                $params[$queryName] = $queryValue;
-            }
-        }*/
-        #$request->setQuery(new Parameters($queryParams));
 
         $request->setMethod($serverRequest->getMethod());
 
