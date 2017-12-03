@@ -2,22 +2,21 @@
 /**
  * Created by PhpStorm.
  * User: victorynox
- * Date: 22.11.17
- * Time: 19:10
+ * Date: 30.11.17
+ * Time: 12:27
  */
 
 namespace rollun\Services\ApiGateway\Services;
 
 
-class BCatalogService implements ServicesInterface
+class AmazonCategoryAnalyzerService implements ServicesInterface
 {
-
     /**
      * Generate string with service host
      * @return string
      */
     public function __toString()
     {
-        return "192.168.123.128";
+        return "192.168.123.27";
     }
 }

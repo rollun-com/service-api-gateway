@@ -8,9 +8,9 @@
 
 namespace rollun\Services\ApiGateway;
 
-use rollun\Services\ApiGateway\Services\BCatalogService;
+use rollun\Services\ApiGateway\Services\CatalogViewerService;
 use rollun\Services\ApiGateway\Services\ServicesInterface;
-use rollun\Services\ApiGateway\Services\GoogleServices;
+use rollun\Services\ApiGateway\Services\ExampleGoogleServices;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -18,13 +18,12 @@ class ServicesPluginManager extends AbstractPluginManager
 {
 
     protected $aliases = [
-        "google" => GoogleServices::class,
-        "bcatalog" => BCatalogService::class,
+        "bcatalog" => CatalogViewerService::class,
     ];
 
     protected $factories = [
-        GoogleServices::class => InvokableFactory::class,
-        BCatalogService::class => InvokableFactory::class
+        ExampleGoogleServices::class => InvokableFactory::class,
+        CatalogViewerService::class => InvokableFactory::class
     ];
 
     protected $instanceOf = ServicesInterface::class;

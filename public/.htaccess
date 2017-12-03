@@ -17,6 +17,8 @@ RewriteEngine On
 #RewriteCond %{HTTP_HOST} ^(.*)\.gw\.mototoyou\.com
 #RewriteRule ^(.*)$ http://gw.mototoyou.com/%1/$1 [L,NC,QSA]
 
+php_value session.cookie_domain ".mototoyou.com"
+
 RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
 RewriteRule ^(.*) - [E=BASE:%1]
 RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]

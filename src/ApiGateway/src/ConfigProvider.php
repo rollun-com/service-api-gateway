@@ -10,7 +10,7 @@ use rollun\Services\ApiGateway\Middleware\PathResolver;
 use rollun\Services\ApiGateway\Middleware\RequestResolver;
 use rollun\Services\ApiGateway\Middleware\RequestSender;
 use rollun\Services\ApiGateway\Middleware\ResponseDecoder;
-use rollun\Services\ApiGateway\Services\GoogleServices;
+use rollun\Services\ApiGateway\Services\ExampleGoogleServices;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 /**

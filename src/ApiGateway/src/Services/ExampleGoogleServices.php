@@ -8,7 +8,7 @@
 
 namespace rollun\Services\ApiGateway\Services;
 
-class GoogleServices implements ServicesInterface
+class ExampleGoogleServices implements ServicesInterface
 {
 
     /**

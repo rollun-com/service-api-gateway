@@ -36,3 +36,53 @@ GET
 http://192.168.122.23/api/webhook/withdraw?asin="AAAAAAAA"&sku="AA-AAA-AAA"
 ```
 После того как запрос отработает, **api-gateway** вернет ответ.
+
+
+### Service Register
+
+Для того что бы зарегестрировать сервис, вы должы
+
+* Создать класс реализующий `rollun\Services\ApiGateway\Services\ServicesInterface`.
+
+* Добавить сервис в плагинМенеджер `rollun\Services\ApiGateway\ServicesPluginManager`
+
+    * Зарегестрировать сервис и фабрику для его создания
+
+    * Добавить алиас на ваш сервис
+
+Простейший пример Services класса
+
+```php
+<?php
+class GoogleServices implements ServicesInterface
+{
+
+    /**
+     * Generate string with service host
+     * @return string
+     */
+    public function __toString()
+    {
+        return "google.com";
+    }
+}
+```
+
+Регистрируем его в `ServicesPluginManager`
+
+```php
+<?php
+class ServicesPluginManager extends AbstractPluginManager
+{
+    protected $aliases = [
+        "google" => GoogleServices::class,
+    ];
+
+    protected $factories = [
+        GoogleServices::class => InvokableFactory::class
+    ];
+    //...
+}
+```
+
+Тперь мы можем обращатся к сервису google - **google.gw.mototoyou.com**
