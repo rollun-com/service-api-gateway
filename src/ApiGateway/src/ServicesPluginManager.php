@@ -18,12 +18,10 @@ class ServicesPluginManager extends AbstractPluginManager
 {
 
     protected $aliases = [
-        "bcatalog" => CatalogViewerService::class,
     ];
 
     protected $factories = [
-        ExampleGoogleServices::class => InvokableFactory::class,
-        CatalogViewerService::class => InvokableFactory::class
+
     ];
 
     protected $instanceOf = ServicesInterface::class;

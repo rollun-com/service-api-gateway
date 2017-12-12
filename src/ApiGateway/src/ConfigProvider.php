@@ -10,6 +10,7 @@ use rollun\Services\ApiGateway\Middleware\PathResolver;
 use rollun\Services\ApiGateway\Middleware\RequestResolver;
 use rollun\Services\ApiGateway\Middleware\RequestSender;
 use rollun\Services\ApiGateway\Middleware\ResponseDecoder;
+use rollun\Services\ApiGateway\Services\CatalogViewerService;
 use rollun\Services\ApiGateway\Services\ExampleGoogleServices;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -20,7 +21,7 @@ use Zend\ServiceManager\Factory\InvokableFactory;
  */
 class ConfigProvider
 {
-    const API_GATEWAY_SERVICE_CONFIG = "ApiGatewayPipe";
+    const API_GATEWAY_SERVICE = "ApiGatewayPipe";
 
     /**
      * Returns the configuration array
@@ -34,7 +35,8 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
-            MiddlewarePipeAbstractFactory::KEY => $this->getPipeConfig()
+            MiddlewarePipeAbstractFactory::KEY => $this->getPipeConfig(),
+            ServicesPluginManager::class => $this->getServicesPluginManagerConfig(),
         ];
     }
 
@@ -69,7 +71,9 @@ class ConfigProvider
             RequestSender::class => InvokableFactory::class,
             ResponseDecoder::class => InvokableFactory::class,
             ServicesPluginManager::class => function (ContainerInterface $container, $requestedName) {
-                return new ServicesPluginManager($container);
+                $config = $container->get("config");
+                $servicePluginManagerConfig = isset($config[ServicesPluginManager::class]) ? $config[ServicesPluginManager::class] : [];
+                return new ServicesPluginManager($servicePluginManagerConfig);
             }
         ];
     }
@@ -80,7 +84,7 @@ class ConfigProvider
     protected function getPipeConfig()
     {
         return [
-            static::API_GATEWAY_SERVICE_CONFIG => [
+            static::API_GATEWAY_SERVICE => [
                 MiddlewarePipeAbstractFactory::KEY_MIDDLEWARES => [
                     ServiceResolver::class,
                     PathResolver::class,
@@ -89,6 +93,21 @@ class ConfigProvider
                     ResponseDecoder::class,
                 ]
             ]
+        ];
+    }
+
+    public function getServicesPluginManagerConfig()
+    {
+        return [
+            'dependencies' => [
+                "aliases" => [
+                    "bcatalog" => CatalogViewerService::class,
+                ],
+                "factories" => [
+                    ExampleGoogleServices::class => InvokableFactory::class,
+                    CatalogViewerService::class => InvokableFactory::class
+                ],
+            ],
         ];
     }
 }

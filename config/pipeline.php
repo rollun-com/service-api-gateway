@@ -40,7 +40,7 @@ if ($container->has('permissionPipe')) {
     $app->pipe('permissionPipe');//TODO: uncommented this
 }
 
-$app->pipe("/",ApiGatewayConfigProvider::API_GATEWAY_SERVICE_CONFIG);
+$app->pipe("/",ApiGatewayConfigProvider::API_GATEWAY_SERVICE);
 
 // Add more middleware here that needs to introspect the routing results; this
 // might include:
