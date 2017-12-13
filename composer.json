@@ -28,7 +28,6 @@
     "psr/log": "^1.0",
     "rollun-com/rollun-logger": "^3.0",
     "rollun-com/rollun-installer": "^3.0",
-    "rollun-com/rollun-permission": "^2.2",
     "rollun-com/rollun-api": "^3.0",
     "zendframework/zend-http": "^2.5",
     "zendframework/zend-i18n": "^2.7",
