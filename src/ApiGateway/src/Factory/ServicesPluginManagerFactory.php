@@ -13,6 +13,7 @@ use Interop\Container\Exception\ContainerException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use rollun\Services\ApiGateway\ServicesPluginManager;
+use Zend\ServiceManager\Config;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -47,10 +48,11 @@ class ServicesPluginManagerFactory implements FactoryInterface
     {
         try {
             $config = $container->get("config");
-            $pluginManagerConfig = isset($config[static::KEY]) ? $config[static::KEY] : [];
-            return new ServicesPluginManager($pluginManagerConfig);
         } catch (NotFoundExceptionInterface | ContainerExceptionInterface $e) {
             throw new ServiceNotCreatedException("Can't get config from container.",$e->getCode(), $e);
         }
+        $pluginManagerConfig = isset($config[static::KEY]) ? $config[static::KEY] : [];
+        $pluginManagerConfig = new Config($pluginManagerConfig);
+        return new ServicesPluginManager($pluginManagerConfig);
     }
 }

@@ -72,8 +72,8 @@ class GatewayRouterInstaller extends InstallerAbstract
             return (
                 in_array(GatewayRouterFactory::class, $config['dependencies']['factories']) &&
                 isset($config[GatewayRouterFactory::KEY]) &&
-                isset($config[GatewayRouterFactory::KEY_GATEWAY_MIDDLEWARE_PIPE]) &&
-                isset($config[GatewayRouterFactory::KEY_GATEWAY_HOST_PATTERN])
+                isset($config[GatewayRouterFactory::KEY][GatewayRouterFactory::KEY_GATEWAY_MIDDLEWARE_PIPE]) &&
+                isset($config[GatewayRouterFactory::KEY][GatewayRouterFactory::KEY_GATEWAY_HOST_PATTERN])
             );
         } catch (NotFoundExceptionInterface | ContainerExceptionInterface $e) {
             return false;

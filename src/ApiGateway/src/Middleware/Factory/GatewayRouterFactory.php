@@ -52,16 +52,16 @@ class GatewayRouterFactory implements FactoryInterface
         if(!isset($config[static::KEY])) {
             throw new ServiceNotCreatedException("Not find factory config.");
         }
-
         $factoryConfig = $config[static::KEY];
+
+        if(!isset($factoryConfig[static::KEY_GATEWAY_MIDDLEWARE_PIPE])) {
+            throw new ServiceNotCreatedException("Not find factory ".static::KEY_GATEWAY_MIDDLEWARE_PIPE." config.");
+        }
         try {
-            if(!isset($factoryConfig[static::KEY_GATEWAY_MIDDLEWARE_PIPE])) {
-                throw new ServiceNotCreatedException("Not find factory ".static::KEY_GATEWAY_MIDDLEWARE_PIPE." config.");
-            }
             $gatewayMiddlewarePipe = $container->get($factoryConfig[static::KEY_GATEWAY_MIDDLEWARE_PIPE]);
         } catch (NotFoundExceptionInterface | ContainerExceptionInterface $e) {
             throw new ServiceNotCreatedException(
-                "Can't find GATEWAY_MIDDLEWARE_PIPE[".
+                "Can't find service GATEWAY_MIDDLEWARE_PIPE[".
                 $factoryConfig[static::KEY_GATEWAY_MIDDLEWARE_PIPE].
                 "] from container.", $e->getCode(), $e);
         }
