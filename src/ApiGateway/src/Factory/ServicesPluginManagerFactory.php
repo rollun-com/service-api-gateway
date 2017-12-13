@@ -52,7 +52,6 @@ class ServicesPluginManagerFactory implements FactoryInterface
             throw new ServiceNotCreatedException("Can't get config from container.",$e->getCode(), $e);
         }
         $pluginManagerConfig = isset($config[static::KEY]) ? $config[static::KEY] : [];
-        $pluginManagerConfig = new Config($pluginManagerConfig);
-        return new ServicesPluginManager($pluginManagerConfig);
+        return new ServicesPluginManager(null, $pluginManagerConfig);
     }
 }
