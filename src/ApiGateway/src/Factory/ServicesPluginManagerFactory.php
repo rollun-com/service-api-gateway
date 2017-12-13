@@ -17,6 +17,7 @@ use Zend\ServiceManager\Config;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\ServiceManager\ServiceManager;
 
 class ServicesPluginManagerFactory implements FactoryInterface
 {
@@ -52,6 +53,6 @@ class ServicesPluginManagerFactory implements FactoryInterface
             throw new ServiceNotCreatedException("Can't get config from container.",$e->getCode(), $e);
         }
         $pluginManagerConfig = isset($config[static::KEY]) ? $config[static::KEY] : [];
-        return new ServicesPluginManager(null, $pluginManagerConfig);
+        return new ServicesPluginManager($container, $pluginManagerConfig);
     }
 }
