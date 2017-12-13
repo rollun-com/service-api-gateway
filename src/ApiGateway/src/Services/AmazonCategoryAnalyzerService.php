@@ -14,6 +14,7 @@ class AmazonCategoryAnalyzerService implements ServicesInterface
     /**
      * Generate string with service host
      * @return string
+     * @deprecated
      */
     public function __toString()
     {

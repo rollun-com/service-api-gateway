@@ -6,13 +6,14 @@
  * Time: 11:29
  */
 
-namespace rollun\Services\ApiGateway;
+namespace rollun\Services\ApiGateway\Installers;
 
 
 use Monolog\RegistryTest;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use rollun\installer\Install\InstallerAbstract;
+use rollun\Services\ApiGateway\ConfigProvider as ApiGatewayConfigProvider;
 use rollun\Services\ApiGateway\Middleware\Factory\GatewayRouterFactory;
 
 class GatewayRouterInstaller extends InstallerAbstract
@@ -29,7 +30,7 @@ class GatewayRouterInstaller extends InstallerAbstract
         return [
             GatewayRouterFactory::KEY =>  [
                 GatewayRouterFactory::KEY_GATEWAY_HOST_PATTERN => $pattern,
-                GatewayRouterFactory::KEY_GATEWAY_MIDDLEWARE_PIPE => ConfigProvider::API_GATEWAY_SERVICE
+                GatewayRouterFactory::KEY_GATEWAY_MIDDLEWARE_PIPE => ApiGatewayConfigProvider::API_GATEWAY_SERVICE
             ]
         ];
     }

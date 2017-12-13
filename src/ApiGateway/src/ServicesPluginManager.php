@@ -9,6 +9,7 @@
 namespace rollun\Services\ApiGateway;
 
 use rollun\Services\ApiGateway\Services\CatalogViewerService;
+use rollun\Services\ApiGateway\Services\Factory\ServiceConfigAbstractFactory;
 use rollun\Services\ApiGateway\Services\ServicesInterface;
 use rollun\Services\ApiGateway\Services\ExampleGoogleServices;
 use Zend\ServiceManager\AbstractPluginManager;
@@ -22,6 +23,10 @@ class ServicesPluginManager extends AbstractPluginManager
 
     protected $factories = [
 
+    ];
+
+    protected $abstractFactories = [
+        ServiceConfigAbstractFactory::class
     ];
 
     protected $instanceOf = ServicesInterface::class;
