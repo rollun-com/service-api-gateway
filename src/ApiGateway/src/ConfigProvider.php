@@ -4,7 +4,9 @@ namespace rollun\Services\ApiGateway;
 
 use Psr\Container\ContainerInterface;
 use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
+use rollun\Services\ApiGateway\Middleware\Factory\GatewayRouterFactory;
 use rollun\Services\ApiGateway\Middleware\Factory\ServiceResolverFactory;
+use rollun\Services\ApiGateway\Middleware\GatewayRouter;
 use rollun\Services\ApiGateway\Middleware\ServiceResolver;
 use rollun\Services\ApiGateway\Middleware\PathResolver;
 use rollun\Services\ApiGateway\Middleware\RequestResolver;
@@ -65,6 +67,7 @@ class ConfigProvider
     protected function getFactories()
     {
         return [
+            GatewayRouter::class => GatewayRouterFactory::class,
             ServiceResolver::class => ServiceResolverFactory::class,
             PathResolver::class => InvokableFactory::class,
             RequestResolver::class => InvokableFactory::class,

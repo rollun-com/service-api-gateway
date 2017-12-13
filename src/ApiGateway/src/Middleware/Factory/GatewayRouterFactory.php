@@ -31,7 +31,7 @@ class GatewayRouterFactory implements FactoryInterface
      * Create an object
      * GatewayRouterFactory::KEY => [
      *      GatewayRouterFactory::KEY_GATEWAY_MIDDLEWARE_PIPE => ConfigProvider::API_GATEWAY_SERVICE_CONFIG ,
-     *      GatewayRouterFactory::KEY_GATEWAY_HOST_PATTERN => '^http(s?):\/\/()',
+     *      GatewayRouterFactory::KEY_GATEWAY_HOST_PATTERN => '/^([\w\d_-]+)\.gw\.domain\.com$/',
      * ]
      * @param  ContainerInterface $container
      * @param  string $requestedName
@@ -55,7 +55,7 @@ class GatewayRouterFactory implements FactoryInterface
 
         $factoryConfig = $config[static::KEY];
         try {
-            if(!isset($factoryConfig[static::KEY_GATEWAY_MIDDLEWARE_PIPE])){
+            if(!isset($factoryConfig[static::KEY_GATEWAY_MIDDLEWARE_PIPE])) {
                 throw new ServiceNotCreatedException("Not find factory ".static::KEY_GATEWAY_MIDDLEWARE_PIPE." config.");
             }
             $gatewayMiddlewarePipe = $container->get($factoryConfig[static::KEY_GATEWAY_MIDDLEWARE_PIPE]);

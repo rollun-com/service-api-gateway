@@ -1,6 +1,7 @@
 <?php
 
 use rollun\Services\ApiGateway\ConfigProvider as ApiGatewayConfigProvider;
+use rollun\Services\ApiGateway\Middleware\GatewayRouter;
 use Zend\Expressive\Helper\ServerUrlMiddleware;
 use Zend\Expressive\Helper\UrlHelperMiddleware;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
@@ -40,7 +41,9 @@ if ($container->has('permissionPipe')) {
     $app->pipe('permissionPipe');//TODO: uncommented this
 }
 
-$app->pipe("/",ApiGatewayConfigProvider::API_GATEWAY_SERVICE);
+if ($container->has(GatewayRouter::class)) {
+    $app->pipe(GatewayRouter::class);
+}
 
 // Add more middleware here that needs to introspect the routing results; this
 // might include:
