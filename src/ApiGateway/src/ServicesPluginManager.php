@@ -26,7 +26,7 @@ class ServicesPluginManager extends AbstractPluginManager
     ];
 
     protected $abstractFactories = [
-        ServiceConfigAbstractFactory::class
+
     ];
 
     protected $instanceOf = ServicesInterface::class;

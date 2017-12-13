@@ -28,21 +28,22 @@ class GatewayServicePluginManagerConfigInstaller extends InstallerAbstract
     {
         $config = [
             ServicesPluginManagerFactory::KEY => [
-                ServiceConfigAbstractFactory::KEY => [
+                'abstract_factories' => [
+                    ServiceConfigAbstractFactory::class,
+                ],
+            ],
+            ServiceConfigAbstractFactory::KEY => [
 
-                ]
             ],
         ];
         if ($this->consoleIO->askConfirmation("You wont add default google service(yes/no, No by default)? ", false)) {
             $config = array_merge_recursive($config, [
                 ServicesPluginManagerFactory::KEY => [
-                    'dependencies' => [
-                        "aliases" => [
-                            "google" => ExampleGoogleServices::class,
-                        ],
-                        "factories" => [
-                            ExampleGoogleServices::class => InvokableFactory::class,
-                        ],
+                    "aliases" => [
+                        "google" => ExampleGoogleServices::class,
+                    ],
+                    "factories" => [
+                        ExampleGoogleServices::class => InvokableFactory::class,
                     ],
                 ]
             ]);

@@ -26,10 +26,10 @@ class ServicesPluginManagerFactory implements FactoryInterface
     /**
      * Create an object
      *  ServicesPluginManagerFactory::KEY => [
-     *      'dependencies' => [
-     *          "aliases" => [
-     *              "google" => ExampleGoogleServices::class,
-     *          ],
+     *
+     *      "aliases" => [
+     *          "google" => ExampleGoogleServices::class,
+     *      ],
      *      "factories" => [
      *          ExampleGoogleServices::class => InvokableFactory::class,
      *          ],

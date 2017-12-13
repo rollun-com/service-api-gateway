@@ -25,8 +25,11 @@ class GatewayRouterInstaller extends InstallerAbstract
      */
     public function install()
     {
-        $pattern = "/^([\w\d_-]+)\.gw\.([\w\d-_]+)\.com$/";
-        $pattern = $this->consoleIO->ask("Enter the gateway domain pattern. (By default use `$pattern`): ", $pattern);
+        do {
+            $pattern = "/^([\w\d_-]+)\.gw\.([\w\d-_]+)\.com$/";
+            $pattern = $this->consoleIO->ask("Enter the gateway domain pattern. (By default use `$pattern`): ", $pattern);
+        } while(!$this->consoleIO->askConfirmation("You enter `$pattern`, confirm ? ", true));
+
         return [
             GatewayRouterFactory::KEY =>  [
                 GatewayRouterFactory::KEY_GATEWAY_HOST_PATTERN => $pattern,
