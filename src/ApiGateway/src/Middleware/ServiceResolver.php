@@ -64,7 +64,7 @@ class ServiceResolver implements MiddlewareInterface
      */
     protected function getServiceName($host)
     {
-        $pattern = '/(?<name>[\w_]+)\./';
+        $pattern = '/(?<name>[\w_-]+)\./';
         if (!preg_match($pattern, $host, $math)) {
             throw new LoggedException("$host is not service");
         }
