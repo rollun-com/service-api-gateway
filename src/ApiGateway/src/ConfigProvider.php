@@ -62,7 +62,9 @@ class ConfigProvider
      */
     protected function getAliases()
     {
-        return [];
+        return [
+            static::HOST_SERVICE_PLUGIN_MANAGER => ServicesPluginManager::class,//default host service plugin manager
+        ];
     }
 
     /**
