@@ -18,7 +18,7 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ServiceResolverFactory implements FactoryInterface
 {
-    const KEY = ServiceResolverFactory::KEY;
+    const KEY = ServiceResolverFactory::class;
 
     const KEY_HOST_SERVICE_PLUGIN_MANAGER = "hostServicePluginManager";
 
