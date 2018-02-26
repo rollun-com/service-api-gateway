@@ -27,6 +27,8 @@ class ConfigProvider
 {
     const API_GATEWAY_SERVICE = "ApiGatewayPipe";
 
+    const HOST_SERVICE_PLUGIN_MANAGER = "hostServicePluginManager";
+
     /**
      * Returns the configuration array
      *
@@ -40,6 +42,7 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             MiddlewarePipeAbstractFactory::KEY => $this->getPipeConfig(),
+            ServiceResolverFactory::KEY => $this->getServiceResolverFactoryConfig()
         ];
     }
 
@@ -94,6 +97,16 @@ class ConfigProvider
                     ResponseDecoder::class,
                 ]
             ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getServiceResolverFactoryConfig()
+    {
+        return [
+            ServiceResolverFactory::KEY_HOST_SERVICE_PLUGIN_MANAGER => static::HOST_SERVICE_PLUGIN_MANAGER
         ];
     }
 }

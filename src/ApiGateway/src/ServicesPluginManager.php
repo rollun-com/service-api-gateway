@@ -22,11 +22,9 @@ class ServicesPluginManager extends AbstractPluginManager
     ];
 
     protected $factories = [
-
     ];
 
     protected $abstractFactories = [
-
     ];
 
     protected $instanceOf = ServicesInterface::class;

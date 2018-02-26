@@ -37,10 +37,6 @@ $app->pipe(ServerUrlMiddleware::class);
 // - $app->pipe('/docs', $apiDocMiddleware);
 // - $app->pipe('/files', $filesMiddleware);
 
-if ($container->has('permissionPipe')) {
-    $app->pipe('permissionPipe');//TODO: uncommented this
-}
-
 if ($container->has(GatewayRouter::class)) {
     $app->pipe(GatewayRouter::class);
 }

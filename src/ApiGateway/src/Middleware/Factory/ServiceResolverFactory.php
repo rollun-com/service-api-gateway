@@ -18,6 +18,9 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ServiceResolverFactory implements FactoryInterface
 {
+    const KEY = ServiceResolverFactory::KEY;
+
+    const KEY_HOST_SERVICE_PLUGIN_MANAGER = "hostServicePluginManager";
 
     /**
      * Create an object
@@ -26,14 +29,17 @@ class ServiceResolverFactory implements FactoryInterface
      * @param  string $requestedName
      * @param  null|array $options
      * @return object
-     * @throws ServiceNotFoundException if unable to resolve the service.
-     * @throws ServiceNotCreatedException if an exception is raised when
-     *     creating a service.
-     * @throws ContainerException if any other error occurs
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $servicesPluginManager = $container->get(ServicesPluginManager::class);
-        return new ServiceResolver($servicesPluginManager);
+        $config = $container->get("config");
+        if(!isset($config[static::KEY])) {
+            throw new ServiceNotCreatedException("Not found config for service $requestedName.");
+        }
+        $factoryConfig = $config[static::KEY];
+        $hostServicesPluginManager = $container->get($factoryConfig[static::KEY_HOST_SERVICE_PLUGIN_MANAGER]);
+        return new ServiceResolver($hostServicesPluginManager);
     }
 }

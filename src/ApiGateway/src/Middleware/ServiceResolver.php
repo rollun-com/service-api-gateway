@@ -13,7 +13,9 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use rollun\logger\Exception\LoggedException;
+use rollun\Services\ApiGateway\RuntimeException;
 use rollun\Services\ApiGateway\ServicesPluginManager;
+use Zend\ServiceManager\PluginManagerInterface;
 use Zend\ServiceManager\ServiceManager;
 
 class ServiceResolver implements MiddlewareInterface
@@ -23,15 +25,15 @@ class ServiceResolver implements MiddlewareInterface
     const ATTR_SERVICE_NAME = "serviceName";
 
     /**
-     * @var ServicesPluginManager
+     * @var PluginManagerInterface
      */
     private $servicesLocator;
 
     /**
      * ResponseSender constructor.
-     * @param ServicesPluginManager $servicesLocator
+     * @param PluginManagerInterface $servicesLocator
      */
-    public function __construct(ServicesPluginManager $servicesLocator)
+    public function __construct(PluginManagerInterface $servicesLocator)
     {
         $this->servicesLocator = $servicesLocator;
     }
@@ -44,6 +46,9 @@ class ServiceResolver implements MiddlewareInterface
      * @param DelegateInterface $delegate
      *
      * @return ResponseInterface
+     * @throws RuntimeException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
@@ -60,13 +65,13 @@ class ServiceResolver implements MiddlewareInterface
     /**
      * @param $host
      * @return string
-     * @throws LoggedException
+     * @throws RuntimeException
      */
     protected function getServiceName($host)
     {
         $pattern = '/(?<name>[\w_-]+)\./';
         if (!preg_match($pattern, $host, $math)) {
-            throw new LoggedException("$host is not service");
+            throw new RuntimeException("$host is not service");
         }
         return ($math['name']);
     }
@@ -74,12 +79,14 @@ class ServiceResolver implements MiddlewareInterface
     /**
      * @param $serviceName
      * @return mixed
-     * @throws LoggedException
+     * @throws RuntimeException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function getService($serviceName)
     {
         if (!$this->servicesLocator->has($serviceName)) {
-            throw new LoggedException("Service $serviceName not found");
+            throw new RuntimeException("Service $serviceName not found");
         }
         $host = $this->servicesLocator->get($serviceName);
         return $host;
