@@ -66,6 +66,9 @@ class RequestResolver implements MiddlewareInterface
         if ($serverRequest->getHeaderLine("Referer")) {
             //TODO: add referer
         }
+        if($serverRequest->hasHeader("x-real-content-type")) {
+            $headers->addHeaderLine("content-type", $serverRequest->getHeaderLine("x-real-content-type"));
+        }
         $headers->addHeaderLine("host", $this->getHost($serverRequest));
         $request->setHeaders($headers);
 
