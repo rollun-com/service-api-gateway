@@ -2,20 +2,14 @@
 
 namespace rollun\Services\ApiGateway;
 
-use Psr\Container\ContainerInterface;
 use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
-use rollun\Services\ApiGateway\Factory\ServicesPluginManagerFactory;
 use rollun\Services\ApiGateway\Middleware\Factory\GatewayRouterFactory;
-use rollun\Services\ApiGateway\Middleware\Factory\ServiceResolverFactory;
 use rollun\Services\ApiGateway\Middleware\GatewayRouter;
 use rollun\Services\ApiGateway\Middleware\ServiceResolver;
 use rollun\Services\ApiGateway\Middleware\PathResolver;
 use rollun\Services\ApiGateway\Middleware\RequestResolver;
 use rollun\Services\ApiGateway\Middleware\RequestSender;
 use rollun\Services\ApiGateway\Middleware\ResponseDecoder;
-use rollun\Services\ApiGateway\Services\CatalogViewerService;
-use rollun\Services\ApiGateway\Services\ExampleGoogleServices;
-use SebastianBergmann\ObjectEnumerator\Exception;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 /**

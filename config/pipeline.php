@@ -7,6 +7,7 @@ use Zend\Expressive\Helper\UrlHelperMiddleware;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
 use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Middleware\NotFoundHandler;
+use Zend\Expressive\Router\Middleware\DispatchMiddleware;
 use Zend\Stratigility\Middleware\ErrorHandler;
 
 /**
@@ -49,9 +50,9 @@ if ($container->has(GatewayRouter::class)) {
 // - etc.
 
 // Register the dispatch middleware in the middleware pipeline
-$app->pipeDispatchMiddleware();
+$app->pipe(DispatchMiddleware::class);
+
 
 // At this point, if no Response is return by any middleware, the
 // NotFoundHandler kicks in; alternately, you can provide other fallback
 // middleware to execute.
-$app->pipe(NotFoundHandler::class);

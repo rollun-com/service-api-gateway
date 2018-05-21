@@ -12,7 +12,6 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use rollun\logger\Exception\LoggedException;
 
 class PathResolver implements MiddlewareInterface
 {

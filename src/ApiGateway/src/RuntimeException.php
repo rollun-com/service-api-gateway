@@ -8,9 +8,8 @@
 
 namespace rollun\Services\ApiGateway;
 
-use rollun\logger\Exception\LoggedException;
 
-class RuntimeException extends LoggedException
+class RuntimeException extends \RuntimeException
 {
 
 }
