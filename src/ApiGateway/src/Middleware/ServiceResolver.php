@@ -16,7 +16,7 @@ use rollun\Services\ApiGateway\RuntimeException;
 
 class ServiceResolver implements MiddlewareInterface
 {
-    const DEFAULT_GW_PATH = "/";
+    const DEFAULT_GATEWAY_SUB_DOMAIN = "gw";
 
     const ATTR_SERVICE_NAME = "serviceName";
 
@@ -49,7 +49,7 @@ class ServiceResolver implements MiddlewareInterface
      */
     protected function getServiceName($host)
     {
-        $pattern = '/(?<name>[\w_-]+)\./';
+        $pattern = '/(?<name>[\w_-]+)\.' . static::DEFAULT_GATEWAY_SUB_DOMAIN . '/';
         if (!preg_match($pattern, $host, $math)) {
             throw new RuntimeException("$host is not service");
         }
