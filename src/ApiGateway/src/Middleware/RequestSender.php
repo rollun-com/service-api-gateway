@@ -12,12 +12,8 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use rollun\logger\Exception\LoggedException;
-use rollun\logger\Logger;
-use rollun\Services\ApiGateway\Middleware\ServiceResolver;
-use Zend\Http\Client;
+use rollun\mesh\MeshHttpClient;
 use Zend\Http\Request;
-use Zend\ServiceManager\ServiceManager;
 
 class RequestSender implements MiddlewareInterface
 {
@@ -36,7 +32,8 @@ class RequestSender implements MiddlewareInterface
     {
         /** @var Request $sendRequest */
         $sendRequest = $request->getAttribute(RequestResolver::ATTR_SEND_REQUEST);
-        $client = new Client(null, [
+
+        $client = new MeshHttpClient(null, [
             'timeout' => 90,
         ]);
         $response = $client->send($sendRequest);

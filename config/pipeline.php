@@ -7,6 +7,7 @@ use Zend\Expressive\Helper\UrlHelperMiddleware;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
 use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Middleware\NotFoundHandler;
+use Zend\Expressive\Router\Middleware\DispatchMiddleware;
 use Zend\Stratigility\Middleware\ErrorHandler;
 
 /**
@@ -37,10 +38,6 @@ $app->pipe(ServerUrlMiddleware::class);
 // - $app->pipe('/docs', $apiDocMiddleware);
 // - $app->pipe('/files', $filesMiddleware);
 
-if ($container->has('permissionPipe')) {
-    $app->pipe('permissionPipe');//TODO: uncommented this
-}
-
 if ($container->has(GatewayRouter::class)) {
     $app->pipe(GatewayRouter::class);
 }
@@ -53,9 +50,9 @@ if ($container->has(GatewayRouter::class)) {
 // - etc.
 
 // Register the dispatch middleware in the middleware pipeline
-$app->pipeDispatchMiddleware();
+$app->pipe(DispatchMiddleware::class);
+
 
 // At this point, if no Response is return by any middleware, the
 // NotFoundHandler kicks in; alternately, you can provide other fallback
 // middleware to execute.
-$app->pipe(NotFoundHandler::class);

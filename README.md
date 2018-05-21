@@ -86,3 +86,21 @@ class ServicesPluginManager extends AbstractPluginManager
 ```
 
 Тперь мы можем обращатся к сервису google - **google.gw.mototoyou.com**
+
+## Проблемы с проксированием запросов типа multipart/form-data
+По умолчаниб запросы c *Content-Type=multipart/form-data* не доступны в php как *raw body*
+> [php:// - php.net](http://php.net/manual/ru/wrappers.php.php)
+
+Для решения этой проблемы используется настройка apache, которам переопределяет тип заголовка 
+*Content-Type* с *multipart/form-data* на *application/x-httpd-php*, а оригинальный тип кладет 
+в заголовок *X-Real-Content-Type*. 
+Так что для коректной работы *api-gateway* Вам необходимо добавить в .htaccess сделующие строки с правилами.
+    
+```apacheconfig
+SetEnvIf Content-Type ^(multipart/form-data)(.*) MULTIPART_CTYPE=$1$2
+RequestHeader set Content-Type application/x-httpd-php env=MULTIPART_CTYPE
+RequestHeader set X-Real-Content-Type %{MULTIPART_CTYPE}e env=MULTIPART_CTYPE
+```
+
+> api-gateway при проксирование запроса, заменит заголовки на исходые, тем самым сервис к которому 
+будет отправлен запрос, не заметим подмены.

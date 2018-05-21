@@ -8,8 +8,6 @@
 
 namespace rollun\Services\ApiGateway\Installers;
 
-
-use Monolog\RegistryTest;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use rollun\installer\Install\InstallerAbstract;
