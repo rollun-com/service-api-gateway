@@ -42,7 +42,6 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             MiddlewarePipeAbstractFactory::KEY => $this->getPipeConfig(),
-            ServiceResolverFactory::KEY => $this->getServiceResolverFactoryConfig()
         ];
     }
 
@@ -63,7 +62,7 @@ class ConfigProvider
     protected function getAliases()
     {
         return [
-            static::HOST_SERVICE_PLUGIN_MANAGER => ServicesPluginManager::class,//default host service plugin manager
+
         ];
     }
 
@@ -74,12 +73,11 @@ class ConfigProvider
     {
         return [
             GatewayRouter::class => GatewayRouterFactory::class,
-            ServiceResolver::class => ServiceResolverFactory::class,
+            ServiceResolver::class => InvokableFactory::class,
             PathResolver::class => InvokableFactory::class,
             RequestResolver::class => InvokableFactory::class,
             RequestSender::class => InvokableFactory::class,
             ResponseDecoder::class => InvokableFactory::class,
-            ServicesPluginManager::class => ServicesPluginManagerFactory::class,
 
         ];
     }
