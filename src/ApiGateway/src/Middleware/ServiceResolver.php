@@ -25,6 +25,7 @@ class ServiceResolver implements MiddlewareInterface
     const ATTR_SERVICE_NAME = "serviceName";
 
     /**
+	 * @deprecated
      * @var PluginManagerInterface
      */
     private $servicesLocator;
@@ -55,9 +56,7 @@ class ServiceResolver implements MiddlewareInterface
         $host = $request->getUri()->getHost();
 
         $serviceName = $this->getServiceName($host);
-
-        $service = $this->getService($serviceName);
-        $request = $request->withAttribute(static::ATTR_SERVICE_NAME, $service);
+        $request = $request->withAttribute(static::ATTR_SERVICE_NAME, $serviceName);
         $response = $delegate->process($request);
         return ($response);
     }
@@ -82,6 +81,7 @@ class ServiceResolver implements MiddlewareInterface
      * @throws RuntimeException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+	 * @deprecated
      */
     protected function getService($serviceName)
     {
